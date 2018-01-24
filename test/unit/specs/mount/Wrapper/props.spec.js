@@ -25,4 +25,18 @@ describe('props', () => {
     const fn = () => p.props()
     expect(fn).to.throw().with.property('message', message)
   })
+
+  it('should update after setProps', () => {
+    const prop1 = {}
+    const prop2 = 'val1'
+    const wrapper = mount(ComponentWithProps, {
+      propsData: { prop1, prop2 }
+    })
+
+    expect(wrapper.props()).to.eql({ prop1: {}, prop2: 'val1' })
+    // setProps
+    wrapper.setProps({ prop2: 'val2' })
+    expect(wrapper.vm.prop2).to.eql('val2') // pass
+    expect(wrapper.props()).to.eql({ prop1: {}, prop2: 'val2' }) // fail
+  })
 })
