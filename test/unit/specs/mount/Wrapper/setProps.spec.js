@@ -47,6 +47,20 @@ describe('setProps', () => {
     expect(info.args[0][0]).to.equal(prop1)
   })
 
+  it('should update after setProps', () => {
+    const prop1 = {}
+    const prop2 = 'val1'
+    const wrapper = mount(ComponentWithProps, {
+      propsData: { prop1, prop2 }
+    })
+
+    expect(wrapper.props()).to.eql({ prop1: {}, prop2: 'val1' })
+    // setProps
+    wrapper.setProps({ prop2: 'val2' })
+    expect(wrapper.vm.prop2).to.eql('val2') // pass
+    expect(wrapper.props()).to.eql({ prop1: {}, prop2: 'val2' }) // fail
+  })
+
   it('throws an error if node is not a Vue instance', () => {
     const message = 'wrapper.setProps() can only be called on a Vue instance'
     const compiled = compileToFunctions('<div><p></p></div>')
